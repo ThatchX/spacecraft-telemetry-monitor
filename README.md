@@ -72,6 +72,10 @@ Press **Command-Shift-B** to compile the four source files and run
 select **Run telemetry monitor in terminal** for the same terminal-based output.
 Select **Debug telemetry monitor** when breakpoint debugging is needed.
 
+## Project history
+
+See [`CHANGELOG.md`](CHANGELOG.md) for dated implementation milestones.
+
 ## Planned V2
 
 Process multiple independent timestamped frames and add trend analysis across
