@@ -6,7 +6,10 @@ enum class HealthStatus {
     CRITICAL
 };
 
+// Each subsystem starts nominal and is promoted when a threshold is reached.
 struct HealthResult {
-    // TODO: Add individual subsystem HealthStatus members.
-    // TODO: Decide which diagnostic details belong in the structured result.
+    HealthStatus attitudeStatus{HealthStatus::NOMINAL};
+    HealthStatus propulsionStatus{HealthStatus::NOMINAL};
+    HealthStatus navigationStatus{HealthStatus::NOMINAL};
+    HealthStatus electricalStatus{HealthStatus::NOMINAL};
 };

@@ -6,6 +6,6 @@
 
 class ReportGenerator {
 public:
-    // TODO: Format structured subsystem results for the caller to display.
+    // Format a completed health result without evaluating telemetry.
     std::string generate(const HealthResult& result) const;
 };

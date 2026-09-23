@@ -5,6 +5,6 @@
 
 class HealthEvaluator {
 public:
-    // TODO: Evaluate a validated frame using named thresholds.
+    // Evaluate subsystem health after the frame has passed validation.
     HealthResult evaluate(const TelemetryFrame& frame) const;
 };

@@ -1,7 +1,19 @@
 #pragma once
 
 struct TelemetryFrame {
-    // TODO: Declare timestamp, x/y/z attitude, engine power (%), speed,
-    // altitude, and battery/electrical power (%) fields.
-    // TODO: Specify types, units, and timestamp convention.
+    // Time elapsed since the monitoring session began.
+    double timestampSeconds{};
+
+    // Deviation from the commanded attitude on each axis.
+    double attitudeXDegrees{};
+    double attitudeYDegrees{};
+    double attitudeZDegrees{};
+
+    // Propulsion output and spacecraft speed.
+    double enginePowerPercent{};
+    double speedMetersPerSecond{};
+
+    // Position and remaining electrical power.
+    double altitudeMeters{};
+    double batteryPowerPercent{};
 };

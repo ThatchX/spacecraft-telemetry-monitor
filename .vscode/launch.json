@@ -2,8 +2,16 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Run telemetry monitor in terminal",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "${workspaceFolder}/build/spacecraft-telemetry-monitor",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build telemetry monitor"
+    },
+    {
       "name": "Debug telemetry monitor",
-      "type": "lldb",
+      "type": "lldb-dap",
       "request": "launch",
       "program": "${workspaceFolder}/build/spacecraft-telemetry-monitor",
       "args": [],

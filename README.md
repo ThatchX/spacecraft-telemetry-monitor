@@ -1,7 +1,7 @@
 # Spacecraft Telemetry Monitor
 
-Will's DeepSpace C++ technical-screen practice project. This is a skeleton;
-Will implements the validation, health evaluation, and reporting logic.
+A C++ technical-screen practice project that validates one spacecraft telemetry
+frame, evaluates subsystem health, and prints a structured operator report.
 
 ## V1 scope
 
@@ -14,7 +14,9 @@ Process one telemetry frame with these fields:
 - Altitude
 - Battery/electrical power (%)
 
-TODO: Choose field types, units, and the timestamp convention before implementation.
+All telemetry fields use `double`. Timestamps are seconds from the start of the
+monitoring session, attitude values are deviations in degrees, speed is meters
+per second, altitude is meters, and power values are percentages.
 
 Pipeline:
 
@@ -26,17 +28,25 @@ Keep data, validation, evaluation, and reporting separate. Invalid or impossible
 readings are distinct from valid but dangerous readings: battery at -5% is invalid
 telemetry; battery at 5% is valid telemetry that may indicate a critical condition.
 Validation should identify the offending field and value, and invalid frames
-should not proceed to health evaluation. The validator's boolean declaration is
-a starting point; TODO: design validation diagnostics before implementing it.
+should not proceed to health evaluation. `TelemetryValidator` returns a
+`ValidationResult` containing every `ValidationIssue` found in the frame.
 
-`HealthResult` will contain individual subsystem statuses using `NOMINAL`,
-`WARNING`, and `CRITICAL`. TODO: Decide subsystem groupings and result members.
+`HealthResult` contains attitude, propulsion, navigation, and electrical
+subsystem statuses using `NOMINAL`, `WARNING`, and `CRITICAL`.
 Health evaluation returns structured results; `ReportGenerator` formats them,
-and `main` will handle console output.
+and `main` handles console output.
 
-Define named `constexpr` thresholds in `include/Thresholds.h`. Choose and document
-their values, units, and boundary behavior as part of the exercise; do not scatter
-numeric thresholds throughout the implementation.
+Named `constexpr` thresholds in `include/Thresholds.h` define these V1 boundaries:
+
+- Electrical: battery at or below 15% is critical; at or below 30% is warning.
+- Propulsion: engine power at or above 95% is critical; at or above 85% is warning.
+- Attitude: an absolute deviation of at least 15 degrees on any axis is critical;
+  at least 5 degrees is warning.
+- Navigation: speed at or above 3000 m/s or altitude at or below 10000 m is
+  critical; speed at or above 2500 m/s or altitude at or below 20000 m is warning.
+
+Critical conditions are evaluated before warning conditions at overlapping
+boundaries.
 
 ## File responsibilities
 
@@ -46,23 +56,21 @@ numeric thresholds throughout the implementation.
 - `include/HealthEvaluator.h`, `src/HealthEvaluator.cpp`: subsystem evaluation.
 - `include/ReportGenerator.h`, `src/ReportGenerator.cpp`: report formatting.
 - `include/Thresholds.h`: named compile-time thresholds.
-- `src/main.cpp`: future pipeline wiring; currently returns successfully.
-- `tests/README.md`: testing checklist for later implementation.
+- `src/main.cpp`: constructs a sample frame and runs the complete V1 pipeline.
+- `tests/README.md`: testing checklist and boundary cases.
 - `.vscode/tasks.json`, `.vscode/launch.json`: build and debug configuration.
 
 ## Build and debug
 
 Open this `spacecraft-telemetry-monitor` folder as the VS Code workspace root.
 The supplied configuration targets macOS/Linux with `clang++` on PATH and uses
-C++17. On macOS, install the Xcode Command Line Tools if needed. Install the
-VS Code CodeLLDB extension (`vadimcn.vscode-lldb`) for debugging.
+C++17. On macOS, install the Xcode Command Line Tools if needed. Breakpoint
+debugging uses the LLVM LLDB DAP extension (`llvm-vs-code-extensions.lldb-dap`).
 
-Run **Terminal -> Run Build Task** to compile the four source files into
-`build/spacecraft-telemetry-monitor`. Press **F5** and select **Debug telemetry
-monitor** to build and launch it. The skeleton produces no console output.
-
-The interface methods are declared but intentionally not defined. Implement them
-before calling them from `main`, or the linker will report missing definitions.
+Press **Command-Shift-B** to compile the four source files and run
+`build/spacecraft-telemetry-monitor` in the integrated terminal. Press **F5** and
+select **Run telemetry monitor in terminal** for the same terminal-based output.
+Select **Debug telemetry monitor** when breakpoint debugging is needed.
 
 ## Planned V2
 
