@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Create build directory",
+      "type": "process",
+      "command": "mkdir",
+      "args": ["-p", "${workspaceFolder}/build"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build telemetry monitor",
+      "type": "process",
+      "command": "clang++",
+      "args": [
+        "-std=c++17", "-Wall", "-Wextra", "-Wpedantic", "-g", "-O0",
+        "-I", "${workspaceFolder}/include",
+        "${workspaceFolder}/src/main.cpp",
+        "${workspaceFolder}/src/TelemetryValidator.cpp",
+        "${workspaceFolder}/src/HealthEvaluator.cpp",
+        "${workspaceFolder}/src/ReportGenerator.cpp",
+        "-o", "${workspaceFolder}/build/spacecraft-telemetry-monitor"
+      ],
+      "dependsOn": "Create build directory",
+      "problemMatcher": ["$gcc"],
+      "group": { "kind": "build", "isDefault": true }
+    }
+  ]
+}

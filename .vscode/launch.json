@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug telemetry monitor",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/spacecraft-telemetry-monitor",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build telemetry monitor"
+    }
+  ]
+}
